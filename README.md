@@ -13,3 +13,21 @@ Bu proje Python ile yazılmış basit bir ağ tarama aracıdır.
 
 ```bash
 python scanner.py
+
+---
+
+
+> “Multi-threading ve queue yapısı ile performansı optimize ettim. Ayrıca banner grabbing ile servis tespiti ve JSON formatında çıktı aldım.”
+
+---
+
+
+
+
+- 🖥 GUI (ekranlı hacker tool)
+- 📡 MAC address bulma
+- 🌍 Gerçek Nmap benzeri tool
+- 🧪 TryHackMe tarzı kullanım
+
+---
+
