@@ -1,0 +1,44 @@
+import socket
+from threading import Thread
+from queue import Queue
+
+open_ports = []
+
+def scan_port(target, port):
+    try:
+        s = socket.socket()
+        s.settimeout(0.5)
+        result = s.connect_ex((target, port))
+        
+        if result == 0:
+            try:
+                banner = s.recv(1024).decode().strip()
+            except:
+                banner = "Bilinmiyor"
+            
+            print(f"[+] {port} açık | Servis: {banner}")
+            open_ports.append((port, banner))
+        
+        s.close()
+    except:
+        pass
+
+def threader(target, q):
+    while not q.empty():
+        port = q.get()
+        scan_port(target, port)
+        q.task_done()
+
+def start_scan(target, start_port, end_port, thread_count=100):
+    q = Queue()
+
+    for port in range(start_port, end_port):
+        q.put(port)
+
+    for _ in range(thread_count):
+        t = Thread(target=threader, args=(target, q))
+        t.daemon = True
+        t.start()
+
+    q.join()
+    return open_ports
