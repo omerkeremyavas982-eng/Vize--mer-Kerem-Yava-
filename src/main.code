@@ -1,0 +1,38 @@
+import socket
+from threading import Thread
+
+# Hedef IP
+target = input("Hedef IP gir: ")
+
+# Port aralığı
+start_port = 1
+end_port = 1024
+
+print(f"\n{target} için tarama başlatılıyor...\n")
+
+# Port tarama fonksiyonu
+def scan_port(port):
+    try:
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s.settimeout(0.5)
+        result = s.connect_ex((target, port))
+        
+        if result == 0:
+            print(f"[+] Port {port} açık")
+        
+        s.close()
+    except:
+        pass
+
+# Thread ile hızlandırma
+threads = []
+
+for port in range(start_port, end_port):
+    t = Thread(target=scan_port, args=(port,))
+    threads.append(t)
+    t.start()
+
+for t in threads:
+    t.join()
+
+print("\nTarama tamamlandı.")
